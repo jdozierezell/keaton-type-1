@@ -1,16 +1,17 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import {
-	VStack,
+	Box,
+	Button,
 	Flex,
-	Heading,
-	Text,
+	FormControl,
 	FormErrorMessage,
 	FormLabel,
-	FormControl,
+	Heading,
 	NumberInput,
 	NumberInputField,
-	Button,
+	Text,
+	VStack,
 } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -42,7 +43,7 @@ const Form = ({ onSubmit, units }) => {
 		resolver: yupResolver(schema),
 	})
 	return (
-		<VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
+		<Box>
 			<Heading as="h2">Calculate Units</Heading>
 			<Text>
 				Enter blood sugar and carbohydrate values below to calculate the
@@ -93,7 +94,7 @@ const Form = ({ onSubmit, units }) => {
 					Submit
 				</Button>
 			</form>
-		</VStack>
+		</Box>
 	)
 }
 
