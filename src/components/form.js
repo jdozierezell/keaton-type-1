@@ -33,7 +33,7 @@ const schema = yup
 	})
 	.required()
 
-const Form = (onSubmit, units) => {
+const Form = ({ onSubmit, units }) => {
 	const {
 		handleSubmit,
 		register,
