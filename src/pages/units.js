@@ -33,7 +33,7 @@ const IndexPage = () => {
 						alignItems="flex-start"
 						bg="gray.50"
 					>
-						<UnitDisplay />
+						<UnitDisplay units={units} />
 					</VStack>
 				</Flex>
 			</Container>

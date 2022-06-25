@@ -3,16 +3,18 @@ import { useForm } from 'react-hook-form'
 import {
 	Box,
 	Button,
+	ButtonGroup,
 	Flex,
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
 	Heading,
+	Icon,
 	NumberInput,
 	NumberInputField,
 	Text,
-	VStack,
 } from '@chakra-ui/react'
+import { FaUndo, FaBriefcaseMedical } from 'react-icons/fa'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -34,23 +36,24 @@ const schema = yup
 	})
 	.required()
 
-const Form = ({ onSubmit, units }) => {
+const Form = ({ onSubmit }) => {
 	const {
 		handleSubmit,
 		register,
 		formState: { errors, isSubmitting },
+		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	})
 	return (
 		<Box>
 			<Heading as="h2">Calculate Units</Heading>
-			<Text>
+			<Text my={4}>
 				Enter blood sugar and carbohydrate values below to calculate the
 				units of insulin needed.
 			</Text>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<Flex minW="max-content" gap="8">
+				<Flex minW="max-content" gap="8" direction="column">
 					<FormControl isInvalid={errors.sugar}>
 						<FormLabel htmlFor="name">
 							Current Blood Sugar
@@ -82,17 +85,27 @@ const Form = ({ onSubmit, units }) => {
 						</FormErrorMessage>
 					</FormControl>
 				</Flex>
-				{units}
-				<Button
-					mt={4}
-					colorScheme="teal"
-					variant="outline"
-					rightIcon={<ArrowForwardIcon />}
-					isLoading={isSubmitting}
-					type="submit"
-				>
-					Submit
-				</Button>
+				<ButtonGroup variant="outline" spacing={6} mt={8}>
+					<Button
+						leftIcon={<Icon as={FaUndo} />}
+						type="reset"
+						onClick={() =>
+							reset({
+								sugar: '',
+								carbs: '',
+							})
+						}
+					>
+						Reset
+					</Button>
+					<Button
+						rightIcon={<Icon as={FaBriefcaseMedical} />}
+						isLoading={isSubmitting}
+						type="submit"
+					>
+						Submit
+					</Button>
+				</ButtonGroup>
 			</form>
 		</Box>
 	)

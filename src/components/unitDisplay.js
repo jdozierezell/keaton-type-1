@@ -1,7 +1,18 @@
 import React from 'react'
+import { Box, Divider, Heading, Text } from '@chakra-ui/react'
 
-const UnitDisplay = () => {
-	return <div>UnitDisplay</div>
+const UnitDisplay = ({ units }) => {
+	return (
+		<Box>
+			<Heading>Units Needed</Heading>
+			<Text mt={4}>
+				These are the units of insulin to give rounded to the nearest
+				whole unit.
+			</Text>
+			<Divider orientation="horizontal" my={8} />
+			<Heading as="h3">{units}</Heading>
+		</Box>
+	)
 }
 
 export default UnitDisplay
