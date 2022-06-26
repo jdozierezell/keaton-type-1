@@ -12,6 +12,7 @@ import {
 	Icon,
 	NumberInput,
 	NumberInputField,
+	Select,
 	Text,
 } from '@chakra-ui/react'
 import { FaUndo, FaBriefcaseMedical } from 'react-icons/fa'
@@ -35,7 +36,7 @@ const schema = yup
 	})
 	.required()
 
-const Form = ({ onSubmit }) => {
+const Form = ({ onSubmit, setType, type }) => {
 	const {
 		handleSubmit,
 		register,
@@ -46,6 +47,7 @@ const Form = ({ onSubmit }) => {
 		defaultValues: {
 			sugar: '',
 			carbs: '',
+			type: 'sugarAndMeal',
 		},
 	})
 	return (
@@ -57,7 +59,22 @@ const Form = ({ onSubmit }) => {
 			</Text>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Flex minW="max-content" gap="8" direction="column">
-					<FormControl isInvalid={errors.sugar}>
+					<Select
+						{...register('type')}
+						onChange={e => {
+							setType(e.target.value)
+						}}
+					>
+						<option value="sugarAndMeal">
+							Sugar and Meal Correction
+						</option>
+						<option value="sugar">Sugar Correction Only</option>
+						<option value="meal">Meal Correction Only</option>
+					</Select>
+					<FormControl
+						isInvalid={errors.sugar}
+						isDisabled={type === 'meal' ? true : false}
+					>
 						<FormLabel htmlFor="sugar">
 							Current Blood Sugar
 						</FormLabel>
@@ -72,7 +89,10 @@ const Form = ({ onSubmit }) => {
 							{errors.sugar && errors.sugar.message}
 						</FormErrorMessage>
 					</FormControl>
-					<FormControl isInvalid={errors.carbs}>
+					<FormControl
+						isInvalid={errors.carbs}
+						isDisabled={type === 'sugar' ? true : false}
+					>
 						<FormLabel htmlFor="carbs">
 							Carbohydrates in Meal
 						</FormLabel>
