@@ -15,7 +15,6 @@ import {
 	Text,
 } from '@chakra-ui/react'
 import { FaUndo, FaBriefcaseMedical } from 'react-icons/fa'
-import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
@@ -44,6 +43,10 @@ const Form = ({ onSubmit }) => {
 		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
+		defaultValues: {
+			sugar: '',
+			carbs: '',
+		},
 	})
 	return (
 		<Box>
@@ -55,7 +58,7 @@ const Form = ({ onSubmit }) => {
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Flex minW="max-content" gap="8" direction="column">
 					<FormControl isInvalid={errors.sugar}>
-						<FormLabel htmlFor="name">
+						<FormLabel htmlFor="sugar">
 							Current Blood Sugar
 						</FormLabel>
 						<NumberInput>
@@ -70,7 +73,7 @@ const Form = ({ onSubmit }) => {
 						</FormErrorMessage>
 					</FormControl>
 					<FormControl isInvalid={errors.carbs}>
-						<FormLabel htmlFor="name">
+						<FormLabel htmlFor="carbs">
 							Carbohydrates in Meal
 						</FormLabel>
 						<NumberInput>
@@ -88,13 +91,9 @@ const Form = ({ onSubmit }) => {
 				<ButtonGroup variant="outline" spacing={6} mt={8}>
 					<Button
 						leftIcon={<Icon as={FaUndo} />}
-						type="reset"
-						onClick={() =>
-							reset({
-								sugar: '',
-								carbs: '',
-							})
-						}
+						onClick={() => {
+							reset()
+						}}
 					>
 						Reset
 					</Button>
