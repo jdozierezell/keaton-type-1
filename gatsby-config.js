@@ -10,6 +10,12 @@ module.exports = {
 				apiToken: '11c7cea5158e2d069fa32beabb9c87',
 			},
 		},
-		'@chakra-ui/gatsby-plugin',
+		{
+			resolve: '@chakra-ui/gatsby-plugin',
+			options: {
+				resetCSS: true,
+				isUsingColorMode: true,
+			},
+		},
 	],
 }
