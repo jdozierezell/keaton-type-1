@@ -9,7 +9,7 @@ const UnitDisplay = ({ units }) => {
 				These are the units of insulin to give rounded to the nearest
 				whole unit.
 			</Text>
-			<Divider my={8} />
+			<Divider my={8} borderColor="gray.500" />
 			<Heading as="h3">{units}</Heading>
 		</Box>
 	)

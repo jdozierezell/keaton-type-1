@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ChakraProvider, Container, Grid, GridItem } from '@chakra-ui/react'
+import { Container, Grid, GridItem } from '@chakra-ui/react'
 import Form from '../components/form'
 import UnitDisplay from '../components/unitDisplay'
 import theme from '../@chakra-ui/gatsby-plugin/theme'
@@ -20,26 +20,21 @@ const IndexPage = () => {
 	}
 	console.log(theme)
 	return (
-		<ChakraProvider>
-			<Container maxW="container.xl" p={0}>
-				<Grid
-					templateRows={{ base: '1fr 1fr', md: '1fr' }}
-					templateColumns={{ base: '1fr', md: '1fr 1fr' }}
-					gridGap={2}
-				>
-					<GridItem p={8} maxW="100vw">
-						<Form
-							onSubmit={onSubmit}
-							setType={setType}
-							type={type}
-						/>
-					</GridItem>
-					<GridItem bg="gray.100" p={8}>
-						<UnitDisplay units={units} />
-					</GridItem>
-				</Grid>
-			</Container>
-		</ChakraProvider>
+		<Container maxW="container.xl" p={0}>
+			<Grid
+				templateRows={{ base: '1fr 1fr', md: '1fr' }}
+				templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+				gridGap={2}
+				minH="100vh"
+			>
+				<GridItem p={8} maxW="100vw">
+					<Form onSubmit={onSubmit} setType={setType} type={type} />
+				</GridItem>
+				<GridItem bg="gray.100" p={8}>
+					<UnitDisplay units={units} />
+				</GridItem>
+			</Grid>
+		</Container>
 	)
 }
 

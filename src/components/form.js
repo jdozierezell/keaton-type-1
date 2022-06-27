@@ -61,7 +61,7 @@ const Form = ({ onSubmit, setType, type }) => {
 				Enter blood sugar and carbohydrate values below to calculate the
 				units of insulin needed.
 			</Text>
-			<Divider my={8} />
+			<Divider my={8} borderColor="gray.500" />
 			<form onSubmit={handleSubmit(onSubmit)} id="calculate-form">
 				<FormLabel htmlFor="type" my={8}>
 					Correction Type
