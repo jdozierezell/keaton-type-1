@@ -1,5 +1,6 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import {
 	Box,
 	Button,
@@ -10,10 +11,12 @@ import {
 	FormLabel,
 	Heading,
 	Icon,
+	Input,
 	NumberInput,
 	NumberInputField,
 	Select,
 	Text,
+	Tooltip,
 } from '@chakra-ui/react'
 import { FaUndo, FaBriefcaseMedical } from 'react-icons/fa'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -29,31 +32,33 @@ const schema = yup.object({
 			.integer('Blood sugar must be an integer.')
 			.required('Blood sugar is required.'),
 	}),
-	carbs: yup
-		.mixed()
-		.when('type', {
-			is: type => type !== 'sugar',
-			then: yup
-				.number()
-				.typeError('Carbohydrates must be a number.')
-				.positive('The value of carbohydrates must be positive.')
-				.integer('Carbohydrates must be an integer.')
-				.required('Carbohydrates is required.'),
-		})
-		.required(),
+	// carbs: yup
+	// 	.mixed()
+	// 	.when('type', {
+	// 		is: type => type !== 'sugar',
+	// 		then: yup
+	// 			.number()
+	// 			.typeError('Carbohydrates must be a number.')
+	// 			.positive('The value of carbohydrates must be positive.')
+	// 			.integer('Carbohydrates must be an integer.')
+	// 			.required('Carbohydrates is required.'),
+	// 	})
+	// 	.required(),
 })
 
 const Form = ({ onSubmit, setType, type }) => {
 	const {
+		control,
 		handleSubmit,
-		register,
 		formState: { errors, isSubmitting },
+		register,
 		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 		defaultValues: {
 			sugar: '',
 			carbs: '',
+			test: '',
 			type: 'sugarAndMeal',
 		},
 	})
@@ -78,7 +83,47 @@ const Form = ({ onSubmit, setType, type }) => {
 						<option value="sugar">Sugar Correction Only</option>
 						<option value="meal">Meal Correction Only</option>
 					</Select>
-					<FormControl
+					<Controller
+						control={control}
+						name="test"
+						id="test"
+						render={({ field, formState }) => <Input {...field} />}
+					/>
+					<Controller
+						control={control}
+						name="sugar"
+						id="sugar"
+						render={({
+							field: { onChange, onBlur, value, ref },
+							formState,
+						}) => (
+							<Tooltip
+								label={errors.sugar ? errors.sugar.message : ''}
+								placement="right"
+								hasArrow
+								isOpen
+								sx={{
+									'--tooltip-bg': 'red.500',
+								}}
+							>
+								<Input
+									type="number"
+									value={value}
+									onChange={onChange}
+									placeholder="Blood Sugar"
+									isInvalid={errors.sugar}
+									sx={{
+										'&[aria-invalid=true]:focus-visible': {
+											borderColor: 'red.500',
+											boxShadow: '0 0 0 1px red.500',
+										},
+									}}
+								/>
+							</Tooltip>
+						)}
+					/>
+					{/* <p>{errors.sugar ? errors.sugar.message : ''}</p> */}
+					{/* <FormControl
 						isInvalid={errors.sugar}
 						isDisabled={type === 'meal' ? true : false}
 					>
@@ -93,8 +138,8 @@ const Form = ({ onSubmit, setType, type }) => {
 								// override focus style to keep red border on error
 								sx={{
 									'&[aria-invalid=true]:focus-visible': {
-										borderColor: '#E53E3E',
-										boxShadow: '0 0 0 1px #E53E3E',
+										borderColor: 'red.500',
+										boxShadow: '0 0 0 1px red.500',
 									},
 								}}
 							/>
@@ -102,7 +147,7 @@ const Form = ({ onSubmit, setType, type }) => {
 						<FormErrorMessage>
 							{errors.sugar && errors.sugar.message}
 						</FormErrorMessage>
-					</FormControl>
+					</FormControl> */}
 					<FormControl
 						isInvalid={errors.carbs}
 						isDisabled={type === 'sugar' ? true : false}
@@ -118,8 +163,8 @@ const Form = ({ onSubmit, setType, type }) => {
 								// override focus style to keep red border on error
 								sx={{
 									'&[aria-invalid=true]:focus-visible': {
-										borderColor: '#E53E3E',
-										boxShadow: '0 0 0 1px #E53E3E',
+										borderColor: 'red.500',
+										boxShadow: '0 0 0 1px red.500',
 									},
 								}}
 							/>
@@ -137,6 +182,7 @@ const Form = ({ onSubmit, setType, type }) => {
 								sugar: '',
 								carbs: '',
 								type: 'sugarAndMeal',
+								test: '',
 							})
 						}}
 					>
