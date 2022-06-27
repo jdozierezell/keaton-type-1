@@ -93,6 +93,7 @@ const Form = ({ onSubmit, setType, type }) => {
 									placement="right"
 									hasArrow
 									isOpen
+									sx={{ '--tooltip-bg': 'colors.red.500' }}
 								>
 									<Input
 										type="number"
@@ -127,6 +128,7 @@ const Form = ({ onSubmit, setType, type }) => {
 									placement="right"
 									hasArrow
 									isOpen
+									sx={{ '--tooltip-bg': 'colors.red.500' }}
 								>
 									<Input
 										type="number"
