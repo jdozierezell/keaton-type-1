@@ -32,18 +32,15 @@ const schema = yup.object({
 			.integer('Blood sugar must be an integer.')
 			.required('Blood sugar is required.'),
 	}),
-	// carbs: yup
-	// 	.mixed()
-	// 	.when('type', {
-	// 		is: type => type !== 'sugar',
-	// 		then: yup
-	// 			.number()
-	// 			.typeError('Carbohydrates must be a number.')
-	// 			.positive('The value of carbohydrates must be positive.')
-	// 			.integer('Carbohydrates must be an integer.')
-	// 			.required('Carbohydrates is required.'),
-	// 	})
-	// 	.required(),
+	carbs: yup.mixed().when('type', {
+		is: type => type !== 'sugar',
+		then: yup
+			.number()
+			.typeError('Carbohydrates must be a number.')
+			.positive('The value of carbohydrates must be positive.')
+			.integer('Carbohydrates must be an integer.')
+			.required('Carbohydrates is required.'),
+	}),
 })
 
 const Form = ({ onSubmit, setType, type }) => {
@@ -58,7 +55,6 @@ const Form = ({ onSubmit, setType, type }) => {
 		defaultValues: {
 			sugar: '',
 			carbs: '',
-			test: '',
 			type: 'sugarAndMeal',
 		},
 	})
@@ -85,94 +81,72 @@ const Form = ({ onSubmit, setType, type }) => {
 					</Select>
 					<Controller
 						control={control}
-						name="test"
-						id="test"
-						render={({ field, formState }) => <Input {...field} />}
+						name="sugar"
+						id="sugar"
+						render={({ field: { onChange, value }, formState }) => (
+							<FormLabel htmlFor="sugar">
+								Current Blood Sugar
+								<Tooltip
+									label={
+										errors.sugar ? errors.sugar.message : ''
+									}
+									placement="right"
+									hasArrow
+									isOpen
+								>
+									<Input
+										type="number"
+										value={value}
+										onChange={onChange}
+										placeholder="Blood Sugar"
+										isInvalid={errors.sugar}
+										sx={{
+											'&[aria-invalid=true]:focus-visible':
+												{
+													borderColor: 'red.500',
+													boxShadow:
+														'0 0 0 1px red.500',
+												},
+										}}
+									/>
+								</Tooltip>
+							</FormLabel>
+						)}
 					/>
 					<Controller
 						control={control}
-						name="sugar"
-						id="sugar"
-						render={({
-							field: { onChange, onBlur, value, ref },
-							formState,
-						}) => (
-							<Tooltip
-								label={errors.sugar ? errors.sugar.message : ''}
-								placement="right"
-								hasArrow
-								isOpen
-								sx={{
-									'--tooltip-bg': 'red.500',
-								}}
-							>
-								<Input
-									type="number"
-									value={value}
-									onChange={onChange}
-									placeholder="Blood Sugar"
-									isInvalid={errors.sugar}
-									sx={{
-										'&[aria-invalid=true]:focus-visible': {
-											borderColor: 'red.500',
-											boxShadow: '0 0 0 1px red.500',
-										},
-									}}
-								/>
-							</Tooltip>
+						name="carbs"
+						id="carbs"
+						render={({ field: { onChange, value }, formState }) => (
+							<FormLabel htmlFor="carbs">
+								Carbohydrates in Meal
+								<Tooltip
+									label={
+										errors.carbs ? errors.carbs.message : ''
+									}
+									placement="right"
+									hasArrow
+									isOpen
+								>
+									<Input
+										type="number"
+										value={value}
+										onChange={onChange}
+										placeholder="Carbohydrates"
+										isInvalid={errors.carbs}
+										sx={{
+											'&[aria-invalid=true]:focus-visible':
+												{
+													borderColor: 'red.500',
+													boxShadow:
+														'0 0 0 1px red.500',
+												},
+										}}
+									/>
+								</Tooltip>
+							</FormLabel>
 						)}
 					/>
-					{/* <p>{errors.sugar ? errors.sugar.message : ''}</p> */}
-					{/* <FormControl
-						isInvalid={errors.sugar}
-						isDisabled={type === 'meal' ? true : false}
-					>
-						<FormLabel htmlFor="sugar">
-							Current Blood Sugar
-						</FormLabel>
-						<NumberInput>
-							<NumberInputField
-								id="sugar"
-								placeholder="Blood Sugar"
-								{...register('sugar')}
-								// override focus style to keep red border on error
-								sx={{
-									'&[aria-invalid=true]:focus-visible': {
-										borderColor: 'red.500',
-										boxShadow: '0 0 0 1px red.500',
-									},
-								}}
-							/>
-						</NumberInput>
-						<FormErrorMessage>
-							{errors.sugar && errors.sugar.message}
-						</FormErrorMessage>
-					</FormControl> */}
-					<FormControl
-						isInvalid={errors.carbs}
-						isDisabled={type === 'sugar' ? true : false}
-					>
-						<FormLabel htmlFor="carbs">
-							Carbohydrates in Meal
-						</FormLabel>
-						<NumberInput>
-							<NumberInputField
-								id="carbs"
-								placeholder="Carbohydrates"
-								{...register('carbs')}
-								// override focus style to keep red border on error
-								sx={{
-									'&[aria-invalid=true]:focus-visible': {
-										borderColor: 'red.500',
-										boxShadow: '0 0 0 1px red.500',
-									},
-								}}
-							/>
-						</NumberInput>
-						<FormErrorMessage>
-							{errors.carbs && errors.carbs.message}
-						</FormErrorMessage>
-					</FormControl>
 				</Flex>
 				<ButtonGroup variant="outline" spacing={6} mt={8}>
 					<Button
@@ -182,7 +156,6 @@ const Form = ({ onSubmit, setType, type }) => {
 								sugar: '',
 								carbs: '',
 								type: 'sugarAndMeal',
-								test: '',
 							})
 						}}
 					>
