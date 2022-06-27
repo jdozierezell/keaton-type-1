@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { ChakraProvider, Container, Flex, VStack } from '@chakra-ui/react'
+import { ChakraProvider, Container, Grid, GridItem } from '@chakra-ui/react'
 import Form from '../components/form'
 import UnitDisplay from '../components/unitDisplay'
+import theme from '../@chakra-ui/gatsby-plugin/theme'
 
 const IndexPage = () => {
 	const [units, setUnits] = useState(0)
@@ -17,34 +18,26 @@ const IndexPage = () => {
 		const unitsRounded = Math.round(-Math.round(-unitsPrecise * 10) / 10)
 		setUnits(unitsRounded)
 	}
+	console.log(theme)
 	return (
 		<ChakraProvider>
-			<Container maxW="container.xl" p={4}>
-				<Flex h="100vh" py={20}>
-					<VStack
-						w="full"
-						h="full"
-						p={10}
-						spacing={10}
-						alignItems="flex-start"
-					>
+			<Container maxW="container.xl" p={0}>
+				<Grid
+					templateRows={{ base: '1fr 1fr', md: '1fr' }}
+					templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+					gridGap={2}
+				>
+					<GridItem p={8} maxW="100vw">
 						<Form
 							onSubmit={onSubmit}
 							setType={setType}
 							type={type}
 						/>
-					</VStack>
-					<VStack
-						w="full"
-						h="full"
-						p={10}
-						spacing={10}
-						alignItems="flex-start"
-						bg="gray.50"
-					>
+					</GridItem>
+					<GridItem bg="gray.100" p={8}>
 						<UnitDisplay units={units} />
-					</VStack>
-				</Flex>
+					</GridItem>
+				</Grid>
 			</Container>
 		</ChakraProvider>
 	)

@@ -1,19 +1,15 @@
 import React from 'react'
 import { useForm, Controller } from 'react-hook-form'
-import { ErrorMessage } from '@hookform/error-message'
 import {
 	Box,
 	Button,
 	ButtonGroup,
+	Divider,
 	Flex,
-	FormControl,
-	FormErrorMessage,
 	FormLabel,
 	Heading,
 	Icon,
 	Input,
-	NumberInput,
-	NumberInputField,
 	Select,
 	Text,
 	Tooltip,
@@ -65,10 +61,13 @@ const Form = ({ onSubmit, setType, type }) => {
 				Enter blood sugar and carbohydrate values below to calculate the
 				units of insulin needed.
 			</Text>
+			<Divider my={8} />
 			<form onSubmit={handleSubmit(onSubmit)} id="calculate-form">
-				<Flex minW="max-content" gap="8" direction="column">
+				<FormLabel htmlFor="type" my={8}>
+					Correction Type
 					<Select
 						{...register('type')}
+						mt={2}
 						onChange={e => {
 							setType(e.target.value)
 						}}
@@ -79,77 +78,71 @@ const Form = ({ onSubmit, setType, type }) => {
 						<option value="sugar">Sugar Correction Only</option>
 						<option value="meal">Meal Correction Only</option>
 					</Select>
-					<Controller
-						control={control}
-						name="sugar"
-						id="sugar"
-						render={({ field: { onChange, value }, formState }) => (
-							<FormLabel htmlFor="sugar">
-								Current Blood Sugar
-								<Tooltip
-									label={
-										errors.sugar ? errors.sugar.message : ''
-									}
-									placement="right"
-									hasArrow
-									isOpen
-									sx={{ '--tooltip-bg': 'colors.red.500' }}
-								>
-									<Input
-										type="number"
-										value={value}
-										onChange={onChange}
-										placeholder="Blood Sugar"
-										isInvalid={errors.sugar}
-										sx={{
-											'&[aria-invalid=true]:focus-visible':
-												{
-													borderColor: 'red.500',
-													boxShadow:
-														'0 0 0 1px red.500',
-												},
-										}}
-									/>
-								</Tooltip>
-							</FormLabel>
-						)}
-					/>
-					<Controller
-						control={control}
-						name="carbs"
-						id="carbs"
-						render={({ field: { onChange, value }, formState }) => (
-							<FormLabel htmlFor="carbs">
-								Carbohydrates in Meal
-								<Tooltip
-									label={
-										errors.carbs ? errors.carbs.message : ''
-									}
-									placement="right"
-									hasArrow
-									isOpen
-									sx={{ '--tooltip-bg': 'colors.red.500' }}
-								>
-									<Input
-										type="number"
-										value={value}
-										onChange={onChange}
-										placeholder="Carbohydrates"
-										isInvalid={errors.carbs}
-										sx={{
-											'&[aria-invalid=true]:focus-visible':
-												{
-													borderColor: 'red.500',
-													boxShadow:
-														'0 0 0 1px red.500',
-												},
-										}}
-									/>
-								</Tooltip>
-							</FormLabel>
-						)}
-					/>
-				</Flex>
+				</FormLabel>
+				<Controller
+					control={control}
+					name="sugar"
+					id="sugar"
+					render={({ field: { onChange, value }, formState }) => (
+						<FormLabel htmlFor="sugar" my={8}>
+							Current Blood Sugar
+							<Tooltip
+								label={errors.sugar ? errors.sugar.message : ''}
+								placement="right"
+								hasArrow
+								isOpen
+								sx={{ '--tooltip-bg': 'colors.red.500' }}
+							>
+								<Input
+									type="number"
+									value={value}
+									onChange={onChange}
+									placeholder="Blood Sugar"
+									isInvalid={errors.sugar}
+									mt={2}
+									sx={{
+										'&[aria-invalid=true]:focus-visible': {
+											borderColor: 'red.500',
+											boxShadow: '0 0 0 1px red.500',
+										},
+									}}
+								/>
+							</Tooltip>
+						</FormLabel>
+					)}
+				/>
+				<Controller
+					control={control}
+					name="carbs"
+					id="carbs"
+					render={({ field: { onChange, value }, formState }) => (
+						<FormLabel htmlFor="carbs" my={8}>
+							Carbohydrates in Meal
+							<Tooltip
+								label={errors.carbs ? errors.carbs.message : ''}
+								placement="right"
+								hasArrow
+								isOpen
+								sx={{ '--tooltip-bg': 'colors.red.500' }}
+							>
+								<Input
+									type="number"
+									value={value}
+									onChange={onChange}
+									placeholder="Carbohydrates"
+									isInvalid={errors.carbs}
+									mt={2}
+									sx={{
+										'&[aria-invalid=true]:focus-visible': {
+											borderColor: 'red.500',
+											boxShadow: '0 0 0 1px red.500',
+										},
+									}}
+								/>
+							</Tooltip>
+						</FormLabel>
+					)}
+				/>
 				<ButtonGroup variant="outline" spacing={6} mt={8}>
 					<Button
 						leftIcon={<Icon as={FaUndo} />}
