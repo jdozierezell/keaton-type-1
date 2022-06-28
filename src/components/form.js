@@ -5,22 +5,28 @@ import {
 	Button,
 	ButtonGroup,
 	Divider,
-	Flex,
 	FormLabel,
 	Heading,
 	Icon,
 	Input,
+	Popover,
+	PopoverArrow,
+	PopoverBody,
+	PopoverCloseButton,
+	PopoverContent,
+	PopoverHeader,
+	PopoverTrigger,
 	Select,
 	Text,
 	Tooltip,
 } from '@chakra-ui/react'
-import { FaUndo, FaBriefcaseMedical } from 'react-icons/fa'
+import { FaBriefcaseMedical, FaInfoCircle, FaUndo } from 'react-icons/fa'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 const schema = yup.object({
 	sugar: yup.mixed().when('type', {
-		is: type => type !== 'meal',
+		is: type => type !== 'meal' && type !== 'long',
 		then: yup
 			.number()
 			.typeError('Blood sugar must be a number.')
@@ -29,7 +35,7 @@ const schema = yup.object({
 			.required('Blood sugar is required.'),
 	}),
 	carbs: yup.mixed().when('type', {
-		is: type => type !== 'sugar',
+		is: type => type !== 'sugar' && type !== 'long',
 		then: yup
 			.number()
 			.typeError('Carbohydrates must be a number.')
@@ -39,7 +45,7 @@ const schema = yup.object({
 	}),
 })
 
-const Form = ({ onSubmit, setType, type }) => {
+const Form = ({ onSubmit, setType, variable }) => {
 	const {
 		control,
 		handleSubmit,
@@ -54,6 +60,7 @@ const Form = ({ onSubmit, setType, type }) => {
 			type: 'sugarAndMeal',
 		},
 	})
+	console.log(variable)
 	return (
 		<Box
 			sx={{
@@ -67,7 +74,45 @@ const Form = ({ onSubmit, setType, type }) => {
 				},
 			}}
 		>
-			<Heading as="h2">Calculate Units</Heading>
+			<Heading as="h2">
+				Calculate Units{' '}
+				<Popover hasArrow placement="right-end" trigger="hover">
+					<PopoverTrigger>
+						<span>
+							<Icon as={FaInfoCircle} boxSize={6} ml={4} />
+						</span>
+					</PopoverTrigger>
+					<PopoverContent bg="gray.800" color="white" p={2}>
+						<PopoverArrow bg="gray.800" />
+						<PopoverHeader fontSize={15}>
+							Curious about how this is calculated?
+						</PopoverHeader>
+						<PopoverBody fontSize={15} fontWeight={400}>
+							It's simple (sort of).
+							<br />
+							<br />
+							To figure out the sugar correction needed, just take
+							the current blood sugar, subtract{' '}
+							{variable.idealBloodSugar}, and divide that number
+							by {variable.correctionFactor}.
+							<br />
+							<br />
+							For the meal correction, divide the number of
+							carbohydrates in the meal by{' '}
+							{variable.carbohydrateRatio}.
+							<br />
+							<br />
+							If you're calculating both, just add those two
+							together.
+							<br />
+							<br />
+							No calculation is needed for the long-lasting
+							insulin. It'll always be{' '}
+							{variable.longLastingInsulinUnitDose}.
+						</PopoverBody>
+					</PopoverContent>
+				</Popover>
+			</Heading>
 			<Text my={4}>
 				Enter blood sugar and carbohydrate values below to calculate the
 				units of insulin needed.
@@ -88,6 +133,7 @@ const Form = ({ onSubmit, setType, type }) => {
 						</option>
 						<option value="sugar">Sugar Correction Only</option>
 						<option value="meal">Meal Correction Only</option>
+						<option value="long">Long-Lasting Insulin Dose</option>
 					</Select>
 				</FormLabel>
 				<Controller
