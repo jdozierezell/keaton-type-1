@@ -18,17 +18,16 @@ const IndexPage = () => {
 		setUnits(unitsRounded)
 	}
 	return (
-		<Container bg="green.500" maxW="container.xl" p={0}>
+		<Container maxW="container.xl" p={0}>
 			<Grid
 				templateRows={{ base: '1fr 1fr', md: '1fr' }}
 				templateColumns={{ base: '1fr', md: '1fr 1fr' }}
-				gridGap={2}
 				minH="100vh"
 			>
-				<GridItem p={8} maxW="100vw">
+				<GridItem p={8} maxW="100vw" bg="green.500">
 					<Form onSubmit={onSubmit} setType={setType} type={type} />
 				</GridItem>
-				<GridItem bg="gray.100" p={8}>
+				<GridItem p={8} bg="pink.300">
 					<UnitDisplay units={units} />
 				</GridItem>
 			</Grid>
