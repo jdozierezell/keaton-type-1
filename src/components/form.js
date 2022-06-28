@@ -55,7 +55,18 @@ const Form = ({ onSubmit, setType, type }) => {
 		},
 	})
 	return (
-		<Box>
+		<Box
+			sx={{
+				'--chakra-colors-chakra-border-color': 'black',
+				'.chakra-select:hover, .chakra-input:hover': {
+					borderColor: 'purple.500',
+				},
+				'.chakra-select:focus, .chakra-input:focus': {
+					borderColor: 'purple.500',
+					boxShadow: '0 0 0 1px purple.500',
+				},
+			}}
+		>
 			<Heading as="h2">Calculate Units</Heading>
 			<Text my={4}>
 				Enter blood sugar and carbohydrate values below to calculate the
@@ -98,6 +109,7 @@ const Form = ({ onSubmit, setType, type }) => {
 									value={value}
 									onChange={onChange}
 									placeholder="Blood Sugar"
+									_placeholder={{ color: 'purple.600' }}
 									isInvalid={errors.sugar}
 									mt={2}
 									sx={{
@@ -130,6 +142,7 @@ const Form = ({ onSubmit, setType, type }) => {
 									value={value}
 									onChange={onChange}
 									placeholder="Carbohydrates"
+									_placeholder={{ color: 'purple.600' }}
 									isInvalid={errors.carbs}
 									mt={2}
 									sx={{
@@ -143,7 +156,12 @@ const Form = ({ onSubmit, setType, type }) => {
 						</FormLabel>
 					)}
 				/>
-				<ButtonGroup variant="outline" spacing={6} mt={8}>
+				<ButtonGroup
+					variant="outline"
+					spacing={6}
+					mt={8}
+					colorScheme="purple"
+				>
 					<Button
 						leftIcon={<Icon as={FaUndo} />}
 						onClick={() => {
@@ -153,6 +171,7 @@ const Form = ({ onSubmit, setType, type }) => {
 								type: 'sugarAndMeal',
 							})
 						}}
+						_hover={{ backgroundColor: 'pink.400' }}
 					>
 						Reset
 					</Button>
@@ -160,6 +179,7 @@ const Form = ({ onSubmit, setType, type }) => {
 						rightIcon={<Icon as={FaBriefcaseMedical} />}
 						isLoading={isSubmitting}
 						type="submit"
+						_hover={{ backgroundColor: 'pink.400' }}
 					>
 						Submit
 					</Button>
