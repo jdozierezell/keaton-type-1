@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { graphql } from 'gatsby'
 import { Container, Grid, GridItem } from '@chakra-ui/react'
-import Form from '../components/form'
-import UnitDisplay from '../components/unitDisplay'
+import Form from '../components/chakra-ui/form'
+import UnitDisplay from '../components/chakra-ui/unitDisplay'
 
 const IndexPage = ({ data: { variable } }) => {
 	const [units, setUnits] = useState(0)
