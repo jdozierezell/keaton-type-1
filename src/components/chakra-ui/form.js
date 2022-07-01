@@ -12,7 +12,6 @@ import {
 	Popover,
 	PopoverArrow,
 	PopoverBody,
-	PopoverCloseButton,
 	PopoverContent,
 	PopoverHeader,
 	PopoverTrigger,

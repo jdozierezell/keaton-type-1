@@ -17,5 +17,23 @@ module.exports = {
 				isUsingColorMode: true,
 			},
 		},
+		{
+			resolve: `gatsby-plugin-manifest`,
+			options: {
+				name: `Keaton Type 1`,
+				short_name: `KT1`,
+				start_url: `/`,
+				background_color: `#8BEE11`,
+				theme_color: `#5412ED`,
+				display: `standalone`,
+				icon: `src/images/insulin_pen.png`,
+			},
+		},
+		{
+			resolve: `gatsby-plugin-offline`,
+			options: {
+				precachePages: [`/`],
+			},
+		},
 	],
 }
