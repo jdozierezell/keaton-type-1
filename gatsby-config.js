@@ -20,8 +20,8 @@ module.exports = {
 		{
 			resolve: `gatsby-plugin-manifest`,
 			options: {
-				name: `Keaton Type 1`,
-				short_name: `KT1`,
+				name: `Keats T1D`,
+				short_name: `Keats T1D`,
 				start_url: `/`,
 				background_color: `#8BEE11`,
 				theme_color: `#5412ED`,
